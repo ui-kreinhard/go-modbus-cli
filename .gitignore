@@ -1,0 +1,6 @@
+.idea
+go-setuper
+packrd/
+modbus-cli
+staticAssets/*
+*-packr.go
