@@ -38,9 +38,6 @@ func main() {
 	flag.Parse()
 	client, err := initConnection(*host, *port)
 	valuesAsString := flag.Args()
-	values, err := convertToByteArray(valuesAsString)
-
-	fmt.Println("values are:", values)
 
 	if err != nil {
 		log.Println(err)
@@ -49,7 +46,7 @@ func main() {
 	resp := []byte{}
 	switch *operation {
 	case "writeSingleCoil":
-		resp, err = writeSingleCoil(client, *address, int(values[0]))
+		resp, err = writeSingleCoil(client, *address, valuesAsString)
 		break
 	case "writeMultipleRegisters":
 		resp, err = writeMultipleRegisters(client, *address, valuesAsString)
@@ -94,8 +91,12 @@ func convertStringArrayToInt(arrayToConvert []string) (int, error) {
 	return ret, nil
 }
 
-func writeSingleCoil(client modbus.Client, address int, value int) ([]byte, error){
-	if value >= 1 {
+func writeSingleCoil(client modbus.Client, address int, valueAsString []string) ([]byte, error){
+	values, err := convertToByteArray(valueAsString)
+	if err != nil {
+		return nil, err
+	}
+	if values[0] >= 1 {
 		return client.WriteSingleCoil(uint16(address), 0xFF00)
 	}
 	return client.WriteSingleCoil(uint16(address), 0x0000)
