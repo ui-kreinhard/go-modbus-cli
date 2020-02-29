@@ -139,11 +139,12 @@ func writeMultipleRegisters(client modbus.Client, address int, values []string) 
 }
 
 func writeSingleRegisters(client modbus.Client, address int, values []string) ([]byte, error) {
-	valuesBytes, err := convertUInt16TArray(values, 16)
-	if err != nil {
-		return nil, err
-	}
-	return client.WriteMultipleRegisters(uint16(address), uint16(len(valuesBytes)/2), valuesBytes)
+	////valuesBytes, err := convertUInt16TArray(values, 16)
+	//if err != nil {
+	//	return nil, err
+	//}
+	return client.WriteSingleRegister(uint16(address), uint16(0))
+	return client.WriteSingleRegister(uint16(address), uint16(0))
 }
 
 func reverse(a []byte) []byte {
