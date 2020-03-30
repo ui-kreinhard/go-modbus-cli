@@ -68,7 +68,11 @@ func main() {
 	 	fmt.Println(" writeSingleRegister")
 	 	fmt.Println(" readCoils")
 	 }
-	fmt.Println("response", resp)
+	if len(resp) > 1 {
+		fmt.Println(resp)
+	} else if len(resp) == 1 {
+		fmt.Println(resp[0])
+	}
 	if err != nil {
 		fmt.Println("err", err)
 	}
